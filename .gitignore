@@ -171,3 +171,7 @@ cython_debug/
 
 #remove .ds_store from all directories
 **/.DS_Store
+
+/models
+yolo11x.pt
+yolov8x.pt
