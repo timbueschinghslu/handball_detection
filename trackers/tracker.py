@@ -84,10 +84,14 @@ class Tracker:
                 cls_id = frame_detection[3]
                 track_id = frame_detection[4]
 
-                if cls_id == cls_names_inv['player']:
+                #print("Class Names:", cls_names)
+                #print("Inverse Class Names:", cls_names_inv)
+                #print("Class ID:", cls_id)
+
+                if cls_id == cls_names_inv['players']:
                     tracks["players"][frame_num][track_id] = {"bbox":bbox}
                 
-                if cls_id == cls_names_inv['referee']:
+                if cls_id == cls_names_inv['referees']:
                     tracks["referees"][frame_num][track_id] = {"bbox":bbox}
             
             for frame_detection in detection_supervision:
