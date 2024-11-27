@@ -15,7 +15,7 @@ def main():
     video_frames = read_video('input_videos/test_clip_3.mp4')
 
     # Initialize Tracker
-    tracker = Tracker('models/best.pt')
+    tracker = Tracker('models/model_all_data_final.pt')
 
     tracks = tracker.get_object_tracks(video_frames,
                                        read_from_stub=True,
@@ -82,7 +82,7 @@ def main():
     speed_and_distance_estimator.draw_speed_and_distance(output_video_frames,tracks)
 
     # Save video
-    save_video(output_video_frames, 'output_videos/output_video.avi')
+    save_video(output_video_frames, 'output_videos/output_video.mp4')
 
 if __name__ == '__main__':
     main()
