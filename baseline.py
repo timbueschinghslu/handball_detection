@@ -1,7 +1,7 @@
 from ultralytics import YOLO
 import torch
 
-model = YOLO('models/best_2_datasets.pt')
+model = YOLO('models/best_matur.pt')
 
 
 
