@@ -1,4 +1,5 @@
 from ultralytics import YOLO
+import torch
 import supervision as sv
 import pickle
 import os
@@ -11,7 +12,8 @@ from utils.bbox_utils import get_center_of_bbox, get_bbox_width, get_foot_positi
 
 class Tracker:
     def __init__(self, model_path):
-        self.model = YOLO(model_path) 
+        self.device = 'mps' if torch.mps.is_available() else 'cpu'
+        self.model = YOLO(model_path).to(self.device) 
         self.tracker = sv.ByteTrack()
 
     def add_position_to_tracks(sekf,tracks):
@@ -41,7 +43,7 @@ class Tracker:
         batch_size = 20 
         detections = [] 
         for i in range(0,len(frames),batch_size):
-            detections_batch = self.model.predict(frames[i:i+batch_size],conf=0.1)
+            detections_batch = self.model.predict(frames[i:i+batch_size],conf=0.1, device=self.device)
             detections += detections_batch
         return detections
 
@@ -191,10 +193,10 @@ class Tracker:
         output_video_frames= []
         for frame_num, frame in enumerate(video_frames):
             frame = frame.copy()
-
             player_dict = tracks["players"][frame_num]
             ball_dict = tracks["ball"][frame_num]
             referee_dict = tracks["referees"][frame_num]
+
 
             # Draw Players
             for track_id, player in player_dict.items():
@@ -214,7 +216,7 @@ class Tracker:
 
 
             # Draw Team Ball Control
-            frame = self.draw_team_ball_control(frame, frame_num, team_ball_control)
+            #frame = self.draw_team_ball_control(frame, frame_num, team_ball_control)
 
             output_video_frames.append(frame)
 
